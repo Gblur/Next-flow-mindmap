@@ -1,5 +1,4 @@
 /* eslint-disable react/display-name */
-import {Button} from "@mui/material";
 import React, {useCallback, useRef} from "react";
 import ReactFlow, {
   useNodesState,
@@ -38,7 +37,7 @@ const fitViewOptions = {
 
 const AddNodeOnEdgeDrop = () => {
   const reactFlowWrapper = useRef<HTMLElement>(null);
-  const connectingNodeId = useRef(null);
+  const connectingNodeId = useRef<string>("");
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const {project} = useReactFlow();
@@ -47,12 +46,12 @@ const AddNodeOnEdgeDrop = () => {
     []
   );
 
-  const onConnectStart = useCallback((_, {nodeId}) => {
+  const onConnectStart = useCallback((_: any, {nodeId}: any) => {
     connectingNodeId.current = nodeId;
   }, []);
 
   const onConnectEnd = useCallback(
-    (event) => {
+    (event: any) => {
       const targetIsPane = event.target.classList.contains("react-flow__pane");
 
       if (targetIsPane && reactFlowWrapper.current) {
@@ -70,12 +69,12 @@ const AddNodeOnEdgeDrop = () => {
         };
 
         setNodes((nds) => nds.concat(newNode));
-        setEdges((eds) =>
+        setEdges((eds: Array<Edge>) =>
           eds.concat({id, source: connectingNodeId.current, target: id})
         );
       }
     },
-    [project]
+    [project, setEdges, setNodes]
   );
 
   return (
@@ -97,8 +96,6 @@ const AddNodeOnEdgeDrop = () => {
 
 export const EdgeDropContext = () => (
   <ReactFlowProvider>
-    <Button>Edit</Button>
-    <Button>Test</Button>
     <AddNodeOnEdgeDrop />
   </ReactFlowProvider>
 );

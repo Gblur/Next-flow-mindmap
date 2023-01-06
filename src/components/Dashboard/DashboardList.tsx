@@ -1,5 +1,4 @@
-import {Table} from "@mui/material";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -11,9 +10,23 @@ const Container = styled.div`
 type Props = {};
 
 export default function DashboardList({}: Props) {
-  return (
-    <Container>
-      <Table></Table>
-    </Container>
-  );
+  const [name, setName] = useState(null);
+  const [error, setError] = useState(null);
+
+  async function getApiRoute() {
+    const res = await fetch("http://localhost:3000/api");
+    if (!res.ok) {
+      throw new Error(`An error has occured ${res.status}`);
+    }
+    const data = await res.json();
+    setName(data.name);
+  }
+
+  useEffect(() => {
+    if (!name) {
+      getApiRoute();
+    }
+  });
+
+  return <Container>{name}</Container>;
 }
