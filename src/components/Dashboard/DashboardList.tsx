@@ -14,7 +14,7 @@ export default function DashboardList({}: Props) {
   const [error, setError] = useState(null);
 
   async function getApiRoute() {
-    const res = await fetch("http://localhost:3000/api");
+    const res = await fetch("/api");
     if (!res.ok) {
       throw new Error(`An error has occured ${res.status}`);
     }
