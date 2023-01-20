@@ -1,3 +1,5 @@
+@import url("passwordStyles.css");
+
 html,
 body {
   padding: 0;
@@ -36,3 +38,4 @@ a {
   margin-right: 5px;
   padding: 15px;
 }
+
